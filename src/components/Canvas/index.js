@@ -80,10 +80,10 @@ const Canvas = ({
   ]);
 
   const drawBoundingBox = (ctx, box, highlight) => {
-    ctx.strokeStyle = highlight ? "blue" : "white";
+    ctx.strokeStyle = highlight ? "rgb(66, 245, 93)" : "white";
     ctx.strokeRect(box.x, box.y, box.width, box.height);
     ctx.fillStyle = highlight
-      ? "rgba(0, 0, 255, 0.3)"
+      ? "rgba(66, 245, 93, 0.3)"
       : "rgba(255, 255, 255, 0.3)";
     ctx.fillRect(box.x, box.y, box.width, box.height);
   };
