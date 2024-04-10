@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Canvas from "../Canvas";
 import { Button, Typography, Box, Skeleton } from "@mui/material";
-import { handleImageUrl } from "../../utils";
+import { handleImageUrl } from "./utils";
+import fetchVideoData from "../../api/Frames/fetchFrameData";
 import Table from "../Table";
 
 const Wrapper = () => {
@@ -41,14 +42,16 @@ const Wrapper = () => {
   useEffect(() => {
     if (!frameLimit) {
       setLoading(true);
-      fetch(
-        "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/video.json"
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setFrameLimit(data.frame_count);
+      const fetchData = async () => {
+        try {
+          const response = await fetchVideoData();
+          setFrameLimit(response.frame_count);
           setLoading(false);
-        });
+        } catch (error) {
+          throw error;
+        }
+      };
+      fetchData();
     }
   }, []);
 

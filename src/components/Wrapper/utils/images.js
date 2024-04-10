@@ -1,5 +1,7 @@
 // Create a cache object to store fetched URLs
-const urlCache = {};
+const urlCache = {
+  0: "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/00000.jpg",
+};
 
 export const handleImageUrl = (
   direction,
