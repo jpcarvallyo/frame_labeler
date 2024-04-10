@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Canvas from "../Canvas";
+import Canvas from "../../components/Canvas";
 import { Button, Typography, Box, Skeleton } from "@mui/material";
 import { handleImageUrl } from "./utils";
 import fetchVideoData from "../../api/Frames/fetchFrameData";
-import Table from "../Table";
+import Table from "../../components/Table";
 
 const BoundingBoxTool = () => {
   const [imageUrl, setImageUrl] = useState(

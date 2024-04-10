@@ -1,6 +1,6 @@
 import "./App.css";
 
-import BoundingBoxTool from "./components/BoundingBoxTool";
+import BoundingBoxTool from "./pages/BoundingBoxTool";
 
 function App() {
   return (
