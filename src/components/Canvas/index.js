@@ -1,6 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const Canvas = ({ imageUrl, boundingBoxes, setBoundingBoxes }) => {
+const Canvas = ({
+  imageUrl,
+  boundingBoxes,
+  setBoundingBoxes,
+  currentFrame,
+}) => {
   const canvasRef = useRef(null);
   const [startX, setStartX] = useState(null);
   const [startY, setStartY] = useState(null);
@@ -30,7 +35,13 @@ const Canvas = ({ imageUrl, boundingBoxes, setBoundingBoxes }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
-    boundingBoxes.forEach((box) => drawBoundingBox(ctx, box));
+    console.log("🚀 ~ useEffect ~ boundingBoxes:", boundingBoxes);
+    if (boundingBoxes[currentFrame]?.data) {
+      boundingBoxes[currentFrame].data.forEach((box) =>
+        drawBoundingBox(ctx, box)
+      );
+    }
+
     if (isDrawing) {
       const width = endX - startX;
       const height = endY - startY;
@@ -88,10 +99,11 @@ const Canvas = ({ imageUrl, boundingBoxes, setBoundingBoxes }) => {
       width,
       height,
     };
-    setBoundingBoxes((prevBoundingBoxes) => [
-      ...prevBoundingBoxes,
-      newBoundingBox,
-    ]);
+    console.log("boundingbox: ", boundingBoxes);
+    console.log("🚀 ~ handleMouseUp ~ newBoundingBox:", newBoundingBox);
+    boundingBoxes[currentFrame].data.push(newBoundingBox);
+    const newCoords = boundingBoxes[currentFrame].data;
+    setBoundingBoxes(newCoords);
   };
 
   return (
