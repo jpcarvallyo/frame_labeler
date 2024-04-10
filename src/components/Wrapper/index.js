@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import Canvas from "../Canvas";
-import { Button, Typography, Grid } from "@mui/material";
+import { Button, Typography, Box, Skeleton } from "@mui/material";
 import { handleImageUrl } from "../../utils";
 import Table from "../Table";
 
@@ -10,7 +10,7 @@ const Wrapper = () => {
   );
   const [frameLimit, setFrameLimit] = useState(null);
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [highlightedBoxIndex, setHighlightedBoxIndex] = useState(null);
 
   const [boundingBoxes, setBoundingBoxes] = useState({
@@ -40,11 +40,15 @@ const Wrapper = () => {
 
   useEffect(() => {
     if (!frameLimit) {
+      setLoading(true);
       fetch(
         "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/video.json"
       )
         .then((response) => response.json())
-        .then((data) => setFrameLimit(data.frame_count));
+        .then((data) => {
+          setFrameLimit(data.frame_count);
+          setLoading(false);
+        });
     }
   }, []);
 
@@ -103,35 +107,55 @@ const Wrapper = () => {
         </Button>
       </div>
 
-      {loading && (
-        <div>
-          <h1>Loading...</h1>
-        </div>
-      )}
-
-      <Suspense fallback={<div>Loading...</div>}>
-        {!loading && imageUrl && (
-          <>
-            <Canvas
-              imageUrl={imageUrl}
-              boundingBoxes={boundingBoxes}
-              setBoundingBoxes={handleBoundingBoxesChange}
-              currentFrame={currentFrame}
-              highlightedBoxIndex={highlightedBoxIndex}
-            />
-            <Typography variant="h4" style={{ color: "black", margin: "20px" }}>
+      {!loading && imageUrl && boundingBoxes[currentFrame]?.data ? (
+        <>
+          <Canvas
+            imageUrl={imageUrl}
+            boundingBoxes={boundingBoxes}
+            setBoundingBoxes={handleBoundingBoxesChange}
+            currentFrame={currentFrame}
+            highlightedBoxIndex={highlightedBoxIndex}
+          />
+          <Box sx={{ display: "flex", justifyContent: "start" }}>
+            <Typography
+              variant="h6"
+              style={{ color: "black", margin: "20px 0" }}
+            >
               Bounding Boxes
             </Typography>
-            {boundingBoxes[currentFrame]?.data ? (
-              <Table
-                handleBoxDelete={handleBoxDelete}
-                tableData={boundingBoxes[currentFrame]?.data}
-                setHighlightedBoxIndex={setHighlightedBoxIndex}
-              />
-            ) : null}
-          </>
-        )}
-      </Suspense>
+          </Box>
+          <Table
+            handleBoxDelete={handleBoxDelete}
+            tableData={boundingBoxes[currentFrame]?.data}
+            setHighlightedBoxIndex={setHighlightedBoxIndex}
+          />
+        </>
+      ) : (
+        <>
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            width={854}
+            height={480}
+            sx={{ marginBottom: "20px" }}
+          />
+          <Box sx={{ display: "flex", justifyContent: "start" }}>
+            <Typography
+              variant="h6"
+              style={{ color: "black", margin: "20px 0" }}
+            >
+              Bounding Boxes
+            </Typography>
+          </Box>
+
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            width={"100%"}
+            height={400}
+          />
+        </>
+      )}
     </section>
   );
 };

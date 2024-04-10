@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { Skeleton } from "@mui/material";
 
 const Canvas = ({
   imageUrl,
@@ -128,12 +129,21 @@ const Canvas = ({
     setBoundingBoxes(newCoords);
   };
 
-  return (
+  return !imageLoaded ? (
+    <Skeleton
+      animation="wave"
+      variant="rectangular"
+      width={854}
+      height={480}
+      style={{ marginBottom: "10px" }}
+    />
+  ) : (
     <canvas
       ref={canvasRef}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      style={{ marginBottom: "10px" }}
     />
   );
 };

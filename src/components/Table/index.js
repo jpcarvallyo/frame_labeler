@@ -43,7 +43,7 @@ const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
   const rows = tableData.map((row, index) => ({
     ...row,
     id: index + 1,
-    name: `Bounding Box: ${index + 1}`,
+    name: `Box: ${index + 1}`,
   }));
 
   return (
@@ -54,6 +54,8 @@ const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
         pageSize={5}
         rowsPerPageOptions={[5, 10, 20]}
         disableSelectionOnClick
+        disableColumnMenu
+        disableColumnSorting
         slotProps={{
           row: {
             onMouseEnter: handleRowEnter,
