@@ -1,12 +1,12 @@
 import "./App.css";
 
-import Wrapper from "./components/Wrapper";
+import BoundingBoxTool from "./components/BoundingBoxTool";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Wrapper />
+        <BoundingBoxTool />
       </header>
     </div>
   );

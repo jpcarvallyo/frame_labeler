@@ -5,7 +5,7 @@ import { handleImageUrl } from "./utils";
 import fetchVideoData from "../../api/Frames/fetchFrameData";
 import Table from "../Table";
 
-const Wrapper = () => {
+const BoundingBoxTool = () => {
   const [imageUrl, setImageUrl] = useState(
     "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/00000.jpg"
   );
@@ -163,4 +163,4 @@ const Wrapper = () => {
   );
 };
 
-export default Wrapper;
+export default BoundingBoxTool;
