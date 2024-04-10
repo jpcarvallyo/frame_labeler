@@ -5,6 +5,7 @@ const Canvas = ({
   boundingBoxes,
   setBoundingBoxes,
   currentFrame,
+  highlightedBoxIndex,
 }) => {
   const canvasRef = useRef(null);
   const [startX, setStartX] = useState(null);
@@ -54,15 +55,15 @@ const Canvas = ({
     drawImageOnCanvas();
 
     if (boundingBoxes[currentFrame]?.data) {
-      boundingBoxes[currentFrame].data.forEach((box) =>
-        drawBoundingBox(ctx, box)
+      boundingBoxes[currentFrame].data.forEach((box, index) =>
+        drawBoundingBox(ctx, box, index === highlightedBoxIndex)
       );
     }
 
     if (isDrawing) {
       const width = endX - startX;
       const height = endY - startY;
-      drawBoundingBox(ctx, { x: startX, y: startY, width, height });
+      drawBoundingBox(ctx, { x: startX, y: startY, width, height }, false);
     }
   }, [
     imageLoaded,
@@ -73,12 +74,16 @@ const Canvas = ({
     endX,
     endY,
     isDrawing,
+    currentFrame,
+    highlightedBoxIndex,
   ]);
 
-  const drawBoundingBox = (ctx, box) => {
-    ctx.strokeStyle = "white";
+  const drawBoundingBox = (ctx, box, highlight) => {
+    ctx.strokeStyle = highlight ? "blue" : "white";
     ctx.strokeRect(box.x, box.y, box.width, box.height);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillStyle = highlight
+      ? "rgba(0, 0, 255, 0.3)"
+      : "rgba(255, 255, 255, 0.3)";
     ctx.fillRect(box.x, box.y, box.width, box.height);
   };
 

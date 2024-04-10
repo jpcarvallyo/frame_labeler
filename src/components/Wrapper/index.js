@@ -11,6 +11,7 @@ const Wrapper = () => {
   const [frameLimit, setFrameLimit] = useState(null);
   const [currentFrame, setCurrentFrame] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [highlightedBoxIndex, setHighlightedBoxIndex] = useState(null);
 
   const [boundingBoxes, setBoundingBoxes] = useState({
     0: {
@@ -60,9 +61,9 @@ const Wrapper = () => {
     });
   }, [currentFrame]);
 
-  const handleBoxDelete = (indexToDelete) => {
+  const handleBoxDelete = () => {
     const updatedDataArray = boundingBoxes[currentFrame].data.filter(
-      (_, index) => index !== indexToDelete
+      (_, index) => index !== highlightedBoxIndex
     );
     setBoundingBoxes((prev) => {
       return {
@@ -116,6 +117,7 @@ const Wrapper = () => {
               boundingBoxes={boundingBoxes}
               setBoundingBoxes={handleBoundingBoxesChange}
               currentFrame={currentFrame}
+              highlightedBoxIndex={highlightedBoxIndex}
             />
             <Typography variant="h4" style={{ color: "black", margin: "20px" }}>
               Bounding Boxes
@@ -124,29 +126,12 @@ const Wrapper = () => {
               <Table
                 handleBoxDelete={handleBoxDelete}
                 tableData={boundingBoxes[currentFrame]?.data}
+                setHighlightedBoxIndex={setHighlightedBoxIndex}
               />
             ) : null}
           </>
         )}
       </Suspense>
-
-      <div>
-        {/* Render bounding box list or other UI elements */}
-        {/* {boundingBoxes[currentFrame]?.data
-          ? boundingBoxes[currentFrame].data.map((box, index) => (
-              <div key={index}>
-                Bounding Box {index + 1}{" "}
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleBoxDelete(index)}
-                >
-                  <DeleteIcon />
-                </Button>
-              </div>
-            ))
-          : null} */}
-      </div>
     </section>
   );
 };

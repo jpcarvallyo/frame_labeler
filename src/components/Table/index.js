@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const Table = ({ handleBoxDelete, tableData }) => {
+const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
+  const [hoveredRowIndex, setHoveredRowIndex] = useState(null);
+
+  const handleRowEnter = (event) => {
+    const id = Number(event.currentTarget?.dataset?.id) - 1;
+    setHoveredRowIndex(id);
+    setHighlightedBoxIndex(id);
+  };
+
+  const handleRowLeave = () => {
+    setHoveredRowIndex(null);
+    setHighlightedBoxIndex(null);
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     { field: "name", headerName: "", width: 150 },
@@ -18,9 +31,7 @@ const Table = ({ handleBoxDelete, tableData }) => {
           variant="contained"
           color="secondary"
           onClick={() => {
-            console.log("deleting");
-            console.log("params: ", params);
-            handleBoxDelete(params.tabIndex);
+            handleBoxDelete(params.rowIndex);
           }}
         >
           <DeleteIcon />
@@ -43,6 +54,16 @@ const Table = ({ handleBoxDelete, tableData }) => {
         pageSize={5}
         rowsPerPageOptions={[5, 10, 20]}
         disableSelectionOnClick
+        slotProps={{
+          row: {
+            onMouseEnter: handleRowEnter,
+            onMouseLeave: handleRowLeave,
+          },
+        }}
+        hoverStateEnabled
+        rowClassName={(params) =>
+          params.rowIndex === hoveredRowIndex ? "hovered-row" : ""
+        }
       />
     </div>
   );
