@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Canvas from "../Canvas";
+import { Button, Typography, Grid } from "@mui/material";
 import { handleImageUrl } from "../../utils";
+import Table from "../Table";
 
 const Wrapper = () => {
   const [imageUrl, setImageUrl] = useState(
@@ -73,11 +75,33 @@ const Wrapper = () => {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={() => handleImageUrlChange("prev")}>Previous</button>
-        <button onClick={() => handleImageUrlChange("next")}>Next</button>
+    <section>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "20px",
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleImageUrlChange("prev")}
+        >
+          Previous
+        </Button>
+        <Typography variant="h4" style={{ color: "black" }}>{`Frame ${
+          currentFrame + 1
+        }`}</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleImageUrlChange("next")}
+        >
+          Next
+        </Button>
       </div>
+
       {loading && (
         <div>
           <h1>Loading...</h1>
@@ -86,27 +110,44 @@ const Wrapper = () => {
 
       <Suspense fallback={<div>Loading...</div>}>
         {!loading && imageUrl && (
-          <Canvas
-            imageUrl={imageUrl}
-            boundingBoxes={boundingBoxes}
-            setBoundingBoxes={handleBoundingBoxesChange}
-            currentFrame={currentFrame}
-          />
+          <>
+            <Canvas
+              imageUrl={imageUrl}
+              boundingBoxes={boundingBoxes}
+              setBoundingBoxes={handleBoundingBoxesChange}
+              currentFrame={currentFrame}
+            />
+            <Typography variant="h4" style={{ color: "black", margin: "20px" }}>
+              Bounding Boxes
+            </Typography>
+            {boundingBoxes[currentFrame]?.data ? (
+              <Table
+                handleBoxDelete={handleBoxDelete}
+                tableData={boundingBoxes[currentFrame]?.data}
+              />
+            ) : null}
+          </>
         )}
       </Suspense>
 
       <div>
         {/* Render bounding box list or other UI elements */}
-        {boundingBoxes[currentFrame]?.data
+        {/* {boundingBoxes[currentFrame]?.data
           ? boundingBoxes[currentFrame].data.map((box, index) => (
               <div key={index}>
                 Bounding Box {index + 1}{" "}
-                <button onClick={() => handleBoxDelete(index)}>Delete</button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleBoxDelete(index)}
+                >
+                  <DeleteIcon />
+                </Button>
               </div>
             ))
-          : null}
+          : null} */}
       </div>
-    </div>
+    </section>
   );
 };
 

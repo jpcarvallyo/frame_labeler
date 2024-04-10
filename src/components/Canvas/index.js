@@ -34,7 +34,24 @@ const Canvas = ({
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+    const drawImageOnCanvas = () => {
+      if (imageLoaded && imageElement) {
+        // Set canvas size equal to image size
+        canvas.width = imageElement.width;
+        canvas.height = imageElement.height;
+
+        // Draw the image on the canvas
+        ctx.drawImage(
+          imageElement,
+          0,
+          0,
+          imageElement.width,
+          imageElement.height
+        );
+      }
+    };
+
+    drawImageOnCanvas();
 
     if (boundingBoxes[currentFrame]?.data) {
       boundingBoxes[currentFrame].data.forEach((box) =>
