@@ -76,6 +76,20 @@ const Wrapper = () => {
     });
   }, [currentFrame]);
 
+  const handleBoxDelete = (indexToDelete) => {
+    const updatedDataArray = boundingBoxes[currentFrame].data.filter(
+      (_, index) => index !== indexToDelete
+    );
+    setBoundingBoxes((prev) => {
+      return {
+        ...prev,
+        [currentFrame]: {
+          data: updatedDataArray,
+        },
+      };
+    });
+  };
+
   return (
     <div>
       <div>
@@ -93,12 +107,14 @@ const Wrapper = () => {
 
       <div>
         {/* Render bounding box list or other UI elements */}
-        {/* {boundingBoxes[currentFrame].data.map((box, index) => (
-          <div key={index}>
-            Bounding Box {index + 1}: X: {box.x}, Y: {box.y}, Width: {box.width}
-            , Height: {box.height}
-          </div>
-        ))} */}
+        {boundingBoxes[currentFrame]?.data
+          ? boundingBoxes[currentFrame].data.map((box, index) => (
+              <div key={index}>
+                Bounding Box {index + 1}{" "}
+                <button onClick={() => handleBoxDelete(index)}>Delete</button>
+              </div>
+            ))
+          : null}
       </div>
     </div>
   );
