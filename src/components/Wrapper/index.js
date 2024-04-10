@@ -2,27 +2,6 @@ import React, { useState, useEffect } from "react";
 import Canvas from "../Canvas";
 import { handleImageUrl } from "../../utils";
 
-// const obj = {
-//   '0': {
-//     data: [{x: 125.5,
-//     y: 30.75,
-//     width: 73,
-//     height: 49}, {x: 105.5,
-//       y: 20.75,
-//       width: 20,
-//       height: 40}]
-//   },
-//   '19': {
-//     data: [{x: 125.5,
-//     y: 30.75,
-//     width: 73,
-//     height: 49}, {x: 105.5,
-//       y: 20.75,
-//       width: 20,
-//       height: 40}]
-//   },
-// }
-
 const Wrapper = () => {
   const [imageUrl, setImageUrl] = useState(
     "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/00000.jpg"
@@ -47,10 +26,10 @@ const Wrapper = () => {
   };
 
   const handleBoundingBoxesChange = (newBoundingBoxes) => {
-    setBoundingBoxes((prev) => {
-      return { ...prev, [currentFrame]: { data: newBoundingBoxes } };
-    });
-    console.log(boundingBoxes);
+    setBoundingBoxes((prev) => ({
+      ...prev,
+      [currentFrame]: { data: newBoundingBoxes },
+    }));
   };
 
   useEffect(() => {

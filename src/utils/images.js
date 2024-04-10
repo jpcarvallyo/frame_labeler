@@ -1,3 +1,6 @@
+// Create a cache object to store fetched URLs
+const urlCache = {};
+
 export const handleImageUrl = (
   direction,
   currentFrame,
@@ -7,24 +10,21 @@ export const handleImageUrl = (
   let frame = currentFrame;
   if (direction === "prev") {
     // Decrement frame number for previous direction
-    if (frame === 0) {
-      frame = limit - 1;
-    } else {
-      frame -= 1;
-    }
+    frame = frame === 0 ? limit - 1 : frame - 1;
   } else if (direction === "next") {
-    if (frame === limit - 1) {
-      frame = 0;
-    } else {
-      frame += 1;
-    }
+    frame = frame === limit - 1 ? 0 : frame + 1;
   }
   setCurrentFrame(frame);
-  // Convert frame number back to padded string format '00001', '00002', etc.
-  const paddedFrame = frame.toString().padStart(5, "0");
 
-  // Construct the URL with the padded frame number
+  // Check if the URL is already in the cache
+  const paddedFrame = frame.toString().padStart(5, "0");
+  if (urlCache[paddedFrame]) {
+    return urlCache[paddedFrame];
+  }
+
+  // If not in the cache, construct the URL and cache it
   const url = `http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/${paddedFrame}.jpg`;
+  urlCache[paddedFrame] = url;
 
   return url;
 };

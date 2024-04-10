@@ -35,7 +35,7 @@ const Canvas = ({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
-    console.log("🚀 ~ useEffect ~ boundingBoxes:", boundingBoxes);
+
     if (boundingBoxes[currentFrame]?.data) {
       boundingBoxes[currentFrame].data.forEach((box) =>
         drawBoundingBox(ctx, box)
@@ -59,8 +59,10 @@ const Canvas = ({
   ]);
 
   const drawBoundingBox = (ctx, box) => {
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = "white";
     ctx.strokeRect(box.x, box.y, box.width, box.height);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillRect(box.x, box.y, box.width, box.height);
   };
 
   const handleMouseDown = (e) => {
@@ -99,8 +101,6 @@ const Canvas = ({
       width,
       height,
     };
-    console.log("boundingbox: ", boundingBoxes);
-    console.log("🚀 ~ handleMouseUp ~ newBoundingBox:", newBoundingBox);
     boundingBoxes[currentFrame].data.push(newBoundingBox);
     const newCoords = boundingBoxes[currentFrame].data;
     setBoundingBoxes(newCoords);
