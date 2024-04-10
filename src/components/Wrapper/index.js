@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Canvas from "../Canvas";
 import { handleImageUrl } from "../../utils";
 
@@ -8,6 +8,7 @@ const Wrapper = () => {
   );
   const [frameLimit, setFrameLimit] = useState(null);
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [boundingBoxes, setBoundingBoxes] = useState({
     0: {
@@ -16,6 +17,7 @@ const Wrapper = () => {
   });
 
   const handleImageUrlChange = (type) => {
+    setLoading(true);
     const newImageUrl = handleImageUrl(
       type,
       currentFrame,
@@ -23,6 +25,7 @@ const Wrapper = () => {
       setCurrentFrame
     );
     setImageUrl(newImageUrl);
+    setLoading(false);
   };
 
   const handleBoundingBoxesChange = (newBoundingBoxes) => {
@@ -75,14 +78,22 @@ const Wrapper = () => {
         <button onClick={() => handleImageUrlChange("prev")}>Previous</button>
         <button onClick={() => handleImageUrlChange("next")}>Next</button>
       </div>
-      {boundingBoxes[currentFrame]?.data && (
-        <Canvas
-          imageUrl={imageUrl}
-          boundingBoxes={boundingBoxes}
-          setBoundingBoxes={handleBoundingBoxesChange}
-          currentFrame={currentFrame}
-        />
+      {loading && (
+        <div>
+          <h1>Loading...</h1>
+        </div>
       )}
+
+      <Suspense fallback={<div>Loading...</div>}>
+        {!loading && imageUrl && (
+          <Canvas
+            imageUrl={imageUrl}
+            boundingBoxes={boundingBoxes}
+            setBoundingBoxes={handleBoundingBoxesChange}
+            currentFrame={currentFrame}
+          />
+        )}
+      </Suspense>
 
       <div>
         {/* Render bounding box list or other UI elements */}
