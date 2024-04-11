@@ -1,5 +1,5 @@
 // Create a cache object to store fetched URLs
-const urlCache = {
+export const urlCache = {
   0: "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/00000.jpg",
 };
 
@@ -29,4 +29,15 @@ export const handleImageUrl = (
   urlCache[paddedFrame] = url;
 
   return url;
+};
+
+export const preloadImages = (currentFrame = 0, limit, numFrames) => {
+  for (let index = 1; index <= numFrames; index++) {
+    const frameNumber = (currentFrame + index) % limit;
+    const paddedFrame = frameNumber.toString().padStart(5, "0");
+    const url = `http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/${paddedFrame}.jpg`;
+    if (!urlCache[index]) {
+      urlCache[index] = url;
+    }
+  }
 };

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Canvas from "../../components/Canvas";
 import { Button, Typography, Box, Skeleton } from "@mui/material";
-import { handleImageUrl } from "./utils";
+import { handleImageUrl, preloadImages, urlCache } from "./helpers";
 import fetchVideoData from "../../api/Frames/fetchFrameData";
 import Table from "../../components/Table";
 
 const BoundingBoxTool = () => {
-  const [imageUrl, setImageUrl] = useState(
-    "http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/00000.jpg"
-  );
+  const [imageUrl, setImageUrl] = useState(urlCache["0"]);
   const [frameLimit, setFrameLimit] = useState(null);
   const [currentFrame, setCurrentFrame] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -47,6 +45,7 @@ const BoundingBoxTool = () => {
           const response = await fetchVideoData();
           setFrameLimit(response.frame_count);
           setLoading(false);
+          preloadImages(0, response.frame_count, 20);
         } catch (error) {
           throw error;
         }
@@ -83,7 +82,7 @@ const BoundingBoxTool = () => {
   };
 
   return (
-    <section>
+    <Box>
       <div
         style={{
           display: "flex",
@@ -159,7 +158,7 @@ const BoundingBoxTool = () => {
           />
         </>
       )}
-    </section>
+    </Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Box } from "@mui/material";
 
 const Canvas = ({
   imageUrl,
@@ -16,6 +16,7 @@ const Canvas = ({
   const [endY, setEndY] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageElement, setImageElement] = useState(null);
+  const [fadeIn, setFadeIn] = useState(false);
 
   // Load the image
   useEffect(() => {
@@ -23,13 +24,14 @@ const Canvas = ({
     image.onload = () => {
       setImageElement(image);
       setImageLoaded(true);
+      setFadeIn(true);
     };
     image.src = imageUrl;
   }, [imageUrl]);
 
   // Draw on the canvas
   useEffect(() => {
-    if (!imageLoaded || !imageElement) return;
+    if (!imageLoaded || !imageElement || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -90,6 +92,7 @@ const Canvas = ({
 
   const handleMouseDown = (e) => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -104,6 +107,7 @@ const Canvas = ({
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -129,22 +133,26 @@ const Canvas = ({
     setBoundingBoxes(newCoords);
   };
 
-  return !imageLoaded ? (
-    <Skeleton
-      animation="wave"
-      variant="rectangular"
-      width={854}
-      height={480}
-      style={{ marginBottom: "10px" }}
-    />
-  ) : (
-    <canvas
-      ref={canvasRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      style={{ marginBottom: "10px" }}
-    />
+  return (
+    <Box style={{ opacity: fadeIn ? 1 : 0, transition: "opacity 0.5s ease" }}>
+      {!imageLoaded ? (
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          width={854}
+          height={480}
+          style={{ marginBottom: "10px" }}
+        />
+      ) : (
+        <canvas
+          ref={canvasRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          style={{ marginBottom: "10px" }}
+        />
+      )}
+    </Box>
   );
 };
 
