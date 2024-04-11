@@ -79,6 +79,9 @@ const BoundingBoxTool = () => {
         },
       };
     });
+    if (updatedDataArray.length === 0) {
+      setHighlightedBoxIndex(null);
+    }
   };
 
   return (
