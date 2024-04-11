@@ -8,7 +8,8 @@ Hello, my name is James Carvallyo. This is my submission for the technical take 
 
 ## Ways to get started
 
-Run the `yarn add` command to install the node_modules
+Use the `yarn add` command to install the node_modules
+Use the `yarn start` command to start the application
 
 ## Requirements
 
