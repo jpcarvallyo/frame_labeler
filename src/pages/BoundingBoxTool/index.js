@@ -52,7 +52,7 @@ const BoundingBoxTool = () => {
       };
       fetchData();
     }
-  }, []);
+  }, [frameLimit]);
 
   useEffect(() => {
     setBoundingBoxes((prev) => {

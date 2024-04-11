@@ -11,7 +11,6 @@ export const handleImageUrl = (
 ) => {
   let frame = currentFrame;
   if (direction === "prev") {
-    // Decrement frame number for previous direction
     frame = frame === 0 ? limit - 1 : frame - 1;
   } else if (direction === "next") {
     frame = frame === limit - 1 ? 0 : frame + 1;

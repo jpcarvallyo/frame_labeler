@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -47,7 +47,7 @@ const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
   }));
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <Box style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -67,7 +67,7 @@ const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
           params.rowIndex === hoveredRowIndex ? "hovered-row" : ""
         }
       />
-    </div>
+    </Box>
   );
 };
 
