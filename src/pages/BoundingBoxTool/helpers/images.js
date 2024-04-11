@@ -18,16 +18,14 @@ export const handleImageUrl = (
   }
   setCurrentFrame(frame);
 
-  // Check if the URL is already in the cache
-  const paddedFrame = frame.toString().padStart(5, "0");
-  if (urlCache[paddedFrame]) {
-    return urlCache[paddedFrame];
+  if (urlCache[frame]) {
+    return urlCache[frame];
   }
 
-  // If not in the cache, construct the URL and cache it
+  const paddedFrame = frame.toString().padStart(5, "0");
   const url = `http://invisai-frontend-interview-data.s3-website-us-west-2.amazonaws.com/frames/${paddedFrame}.jpg`;
   urlCache[paddedFrame] = url;
-
+  console.log("urlCache: ", urlCache);
   return url;
 };
 
