@@ -16,13 +16,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const theme = createTheme();
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <RouterProvider router={router}>
+      <App />
+    </RouterProvider>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
