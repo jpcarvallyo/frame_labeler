@@ -3,7 +3,11 @@ import { Button, Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
+const CanvasDataTable = ({
+  handleBoxDelete,
+  tableData,
+  setHighlightedBoxIndex,
+}) => {
   const [hoveredRowIndex, setHoveredRowIndex] = useState(null);
 
   const handleRowEnter = (event) => {
@@ -71,4 +75,4 @@ const Table = ({ handleBoxDelete, tableData, setHighlightedBoxIndex }) => {
   );
 };
 
-export default Table;
+export default CanvasDataTable;

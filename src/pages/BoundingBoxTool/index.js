@@ -3,7 +3,7 @@ import Canvas from "../../components/Canvas";
 import { Button, Typography, Box, Skeleton } from "@mui/material";
 import { handleImageUrl, preloadImages, urlCache } from "./helpers";
 import fetchVideoData from "../../api/Frames/fetchFrameData";
-import Table from "../../components/Table";
+import CanvasDataTable from "../../components/CanvasDataTable";
 
 const BoundingBoxTool = () => {
   const [imageUrl, setImageUrl] = useState(urlCache["0"]);
@@ -126,7 +126,7 @@ const BoundingBoxTool = () => {
               Bounding Boxes
             </Typography>
           </Box>
-          <Table
+          <CanvasDataTable
             handleBoxDelete={handleBoxDelete}
             tableData={boundingBoxes[currentFrame]?.data}
             setHighlightedBoxIndex={setHighlightedBoxIndex}
