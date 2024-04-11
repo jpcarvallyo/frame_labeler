@@ -1,14 +1,14 @@
 import "./App.css";
-
+import { Box } from "@mui/material";
 import BoundingBoxTool from "./pages/BoundingBoxTool";
 
 function App() {
   return (
-    <div className="App">
+    <Box className="App">
       <header className="App-header">
         <BoundingBoxTool />
       </header>
-    </div>
+    </Box>
   );
 }
 

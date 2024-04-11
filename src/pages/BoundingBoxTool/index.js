@@ -83,7 +83,7 @@ const BoundingBoxTool = () => {
 
   return (
     <Box>
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -107,7 +107,7 @@ const BoundingBoxTool = () => {
         >
           Next
         </Button>
-      </div>
+      </Box>
 
       {!loading && imageUrl && boundingBoxes[currentFrame]?.data ? (
         <>
